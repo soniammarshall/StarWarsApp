@@ -32,14 +32,53 @@ fun CharactersScreenContent(
     uiState: CharactersUiState,
     modifier: Modifier = Modifier
 ) {
-    Scaffold(modifier = modifier.fillMaxSize()) { innerPadding ->
-        Column(
-            modifier = modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-        ) {
-            Text("Temporary text here")
+    Scaffold(
+        modifier = modifier.fillMaxSize(),
+        content = { innerPadding ->
+            when (uiState) {
+                CharactersUiState.Loading -> {
+                    // TODO create standard loading state
+                    LoadingState(modifier = Modifier.padding(innerPadding))
+                }
+                CharactersUiState.Error -> {
+                    // TODO create standard error state
+                    ErrorState(modifier = Modifier.padding(innerPadding))
+                }
+                CharactersUiState.Loaded -> {
+                    CharactersList(modifier = Modifier.padding(innerPadding))
+                }
+            }
         }
+    )
+}
+
+@Composable
+fun LoadingState(modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+    ) {
+        Text("Loading")
+    }
+}
+
+@Composable
+fun ErrorState(modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+    ) {
+        Text("Error")
+    }
+}
+
+@Composable
+fun CharactersList(modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+    ) {
+        Text("Temporary text here")
     }
 }
 
