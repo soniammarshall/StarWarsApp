@@ -1,4 +1,4 @@
-package com.starwarsapp.ui.theme
+package com.starwarsapp.uicomponents.theme
 
 import androidx.compose.ui.graphics.Color
 
