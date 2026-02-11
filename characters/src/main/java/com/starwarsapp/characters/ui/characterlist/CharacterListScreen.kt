@@ -27,6 +27,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.starwarsapp.characters.data.BasicCharacterResult
 import com.starwarsapp.uicomponents.R
+import com.starwarsapp.uicomponents.components.ErrorState
+import com.starwarsapp.uicomponents.components.LoadingState
 import com.starwarsapp.uicomponents.components.PreviewSurface
 import com.starwarsapp.uicomponents.components.SWTopAppBar
 
@@ -67,13 +69,16 @@ fun CharacterListScreenContent(
         content = { innerPadding ->
             when (uiState) {
                 CharacterListUiState.Loading -> {
-                    // TODO create standard loading state
                     LoadingState(modifier = Modifier.padding(innerPadding))
                 }
+
                 CharacterListUiState.Error -> {
-                    // TODO create standard error state
-                    ErrorState(modifier = Modifier.padding(innerPadding))
+                    ErrorState(
+                        onRetryClick = { onAction(CharacterListAction.RetryClick) },
+                        modifier = Modifier.padding(innerPadding)
+                    )
                 }
+
                 is CharacterListUiState.Loaded -> {
                     CharacterList(
                         uiState = uiState,
@@ -84,26 +89,6 @@ fun CharacterListScreenContent(
             }
         }
     )
-}
-
-@Composable
-fun LoadingState(modifier: Modifier = Modifier) {
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-    ) {
-        Text("Loading")
-    }
-}
-
-@Composable
-fun ErrorState(modifier: Modifier = Modifier) {
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-    ) {
-        Text("Error")
-    }
 }
 
 @Composable

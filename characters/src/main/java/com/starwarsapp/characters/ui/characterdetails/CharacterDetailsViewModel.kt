@@ -23,7 +23,12 @@ class CharacterDetailsViewModel(
     val events = _events.asSharedFlow()
 
     init {
+        loadScreen()
+    }
+
+    private fun loadScreen() {
         viewModelScope.launch {
+            _uiState.value = CharacterDetailsUiState.Loading
             try {
                 val id = 1
                 val result = getCharacterDetailsUseCase.execute(id)
@@ -42,6 +47,10 @@ class CharacterDetailsViewModel(
                     _events.emit(CharacterDetailsEvent.NavigateBack)
                 }
             }
+            CharacterDetailsAction.RetryClick -> {
+                loadScreen()
+            }
+
         }
     }
 }

@@ -24,8 +24,8 @@ import com.starwarsapp.characters.data.SpeciesResult
 import com.starwarsapp.characters.data.StarshipResult
 import com.starwarsapp.characters.data.VehicleResult
 import com.starwarsapp.characters.ui.CharacterUiModel
-import com.starwarsapp.characters.ui.characterlist.ErrorState
-import com.starwarsapp.characters.ui.characterlist.LoadingState
+import com.starwarsapp.uicomponents.components.ErrorState
+import com.starwarsapp.uicomponents.components.LoadingState
 import com.starwarsapp.uicomponents.components.PreviewSurface
 import com.starwarsapp.uicomponents.components.SWTopAppBar
 
@@ -77,7 +77,9 @@ fun CharacterDetailsContent(
                     LoadingState(modifier = Modifier.padding(innerPadding))
                 }
                 CharacterDetailsUiState.Error -> {
-                    ErrorState(modifier = Modifier.padding(innerPadding))
+                    ErrorState(
+                        onRetryClick = { onAction(CharacterDetailsAction.RetryClick) },
+                        modifier = Modifier.padding(innerPadding))
                 }
                 is CharacterDetailsUiState.Loaded -> {
                     CharacterDetails(

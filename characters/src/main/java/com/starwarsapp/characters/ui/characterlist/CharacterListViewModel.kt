@@ -24,7 +24,12 @@ class CharacterListViewModel(
 
 
     init {
+        loadScreen()
+    }
+
+    private fun loadScreen() {
         viewModelScope.launch {
+            _uiState.value = CharacterListUiState.Loading
             try {
                 val result = starWarsRepository.getCharacterList()
                 _uiState.value = CharacterListUiState.Loaded(
