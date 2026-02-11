@@ -1,6 +1,6 @@
 package com.starwarsapp.characters.ui.characterlist
 
-import com.starwarsapp.characters.data.BasicCharacterResult
+import com.starwarsapp.characters.ui.BasicCharacterUiModel
 
 sealed interface CharacterListUiState {
     data object Loading : CharacterListUiState
@@ -8,7 +8,7 @@ sealed interface CharacterListUiState {
         val count: Int,
         val next: String?,
         val previous: String?,
-        val characterList: List<BasicCharacterResult>
+        val characterList: List<BasicCharacterUiModel>
     ) : CharacterListUiState
     data object Error : CharacterListUiState
 }

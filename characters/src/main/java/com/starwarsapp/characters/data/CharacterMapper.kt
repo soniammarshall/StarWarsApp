@@ -1,5 +1,6 @@
 package com.starwarsapp.characters.data
 
+import com.starwarsapp.characters.ui.BasicCharacterUiModel
 import com.starwarsapp.characters.ui.CharacterUiModel
 
 fun mapToCharacterUiModel(
@@ -25,6 +26,14 @@ fun mapToCharacterUiModel(
         species = species.ifEmpty { null },
         starships = starships.ifEmpty { null },
         vehicles = vehicles.ifEmpty { null },
+    )
+}
+
+fun mapToBasicCharacterUiModel(character: BasicCharacterResult): BasicCharacterUiModel {
+    return BasicCharacterUiModel(
+        id = getId(character.url),
+        name = character.name,
+        birthYear = character.birthYear,
     )
 }
 

@@ -21,6 +21,7 @@ data class BasicCharacterResult(
     val name: String,
     @SerialName("birth_year")
     val birthYear: String,
+    val url: String,
 )
 
 @Serializable

@@ -13,6 +13,12 @@ typealias SpeciesId = Int
 typealias StarshipId = Int
 typealias VehicleId = Int
 
+data class BasicCharacterUiModel(
+    val id: CharacterId?,
+    val name: String,
+    val birthYear: String,
+)
+
 data class CharacterUiModel(
     val id: CharacterId?,
     val name: String,

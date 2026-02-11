@@ -7,6 +7,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.starwarsapp.characters.data.StarWarsRepository
 import com.starwarsapp.characters.data.StarWarsRepositoryImpl
+import com.starwarsapp.characters.data.mapToBasicCharacterUiModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -36,7 +37,7 @@ class CharacterListViewModel(
                     count = result.count,
                     next = result.next,
                     previous = result.previous,
-                    characterList = result.results
+                    characterList = result.results.map { mapToBasicCharacterUiModel(it) }
                 )
             } catch(e: Exception) {
                 Log.e("CharactersViewModel", "Error loading character list", e)

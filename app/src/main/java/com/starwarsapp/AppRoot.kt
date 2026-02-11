@@ -4,25 +4,26 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.starwarsapp.characters.ui.CharacterId
 import com.starwarsapp.characters.ui.characterdetails.CharacterDetailsScreen
 import com.starwarsapp.characters.ui.characterlist.CharacterListScreen
+import kotlinx.serialization.Serializable
 
 @Composable
 fun AppRoot() {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = CharacterList.route,
+        startDestination = NavigationDestination.CharacterList,
     ) {
-        composable(CharacterList.route) {
+        composable<NavigationDestination.CharacterList> {
             CharacterListScreen(
-                // TODO pass the id in
-                navigateToCharacterDetails = {
-                    navController.navigate(CharacterDetails.route)
+                navigateToCharacterDetails = { id ->
+                    navController.navigate(NavigationDestination.CharacterDetails(id))
                 }
             )
         }
-        composable(CharacterDetails.route) {
+        composable<NavigationDestination.CharacterDetails> {
             CharacterDetailsScreen(
                 navigateBack = {
                     navController.popBackStack()
@@ -33,14 +34,11 @@ fun AppRoot() {
 
 }
 
-interface NavigationDestination {
-    val route: String
-}
+sealed class NavigationDestination {
 
-object CharacterList : NavigationDestination {
-    override val route: String = "characterList"
-}
+    @Serializable
+    data object CharacterList : NavigationDestination()
 
-object CharacterDetails : NavigationDestination {
-    override val route: String = "characterDetails"
+    @Serializable
+    data class CharacterDetails(val id: CharacterId) : NavigationDestination()
 }

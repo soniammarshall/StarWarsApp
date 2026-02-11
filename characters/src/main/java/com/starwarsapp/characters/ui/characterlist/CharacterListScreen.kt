@@ -25,7 +25,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.starwarsapp.characters.data.BasicCharacterResult
+import com.starwarsapp.characters.ui.BasicCharacterUiModel
 import com.starwarsapp.uicomponents.R
 import com.starwarsapp.uicomponents.components.ErrorState
 import com.starwarsapp.uicomponents.components.LoadingState
@@ -50,7 +50,7 @@ fun CharacterListScreen(
         }
     }
 
-    CharacterListScreenContent(
+    CharacterListContent(
         uiState = uiState,
         onAction = viewModel::onAction,
         modifier = modifier,
@@ -58,7 +58,7 @@ fun CharacterListScreen(
 }
 
 @Composable
-fun CharacterListScreenContent(
+fun CharacterListContent(
     uiState: CharacterListUiState,
     onAction: (CharacterListAction) -> Unit,
     modifier: Modifier = Modifier,
@@ -129,14 +129,18 @@ fun CharacterList(
 }
 
 @Composable
-fun CharacterRow(character: BasicCharacterResult, onAction: (CharacterListAction) -> Unit) {
+fun CharacterRow(character: BasicCharacterUiModel, onAction: (CharacterListAction) -> Unit) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
             .padding(12.dp)
             .clickable(
-                onClick = { onAction(CharacterListAction.CharacterClick(1)) }
+                onClick = {
+                    character.id?.let {
+                        onAction(CharacterListAction.CharacterClick(character.id))
+                    }
+                }
             )
     ) {
         Icon(
@@ -167,22 +171,24 @@ val sampleLoadedUiState = CharacterListUiState.Loaded(
     next = null,
     previous = null,
     characterList = listOf(
-        BasicCharacterResult(
+        BasicCharacterUiModel(
             name = "Luke Skywalker",
-            birthYear = "19 BBY"
+            birthYear = "19 BBY",
+            id = 2,
         ),
-        BasicCharacterResult(
+        BasicCharacterUiModel(
             name = "C-3PO",
-            birthYear = "112BBY"
+            birthYear = "112BBY",
+            id = 3,
         ),
     )
 )
 
 @PreviewLightDark
 @Composable
-internal fun PreviewCharacterListScreenContentLightDark() {
+internal fun PreviewCharacterListContentLightDark() {
     PreviewSurface {
-        CharacterListScreenContent(
+        CharacterListContent(
             uiState = sampleLoadedUiState,
             onAction = {},
         )
@@ -191,9 +197,9 @@ internal fun PreviewCharacterListScreenContentLightDark() {
 
 @PreviewFontScale
 @Composable
-internal fun PreviewCharacterListScreenContentFontScale() {
+internal fun PreviewCharacterListContentFontScale() {
     PreviewSurface {
-        CharacterListScreenContent(
+        CharacterListContent(
             uiState = sampleLoadedUiState,
             onAction = {},
         )
