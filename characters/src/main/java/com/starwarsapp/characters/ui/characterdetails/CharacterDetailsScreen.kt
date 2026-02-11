@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
@@ -122,7 +123,10 @@ fun CharacterInfo(
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier.padding(horizontal = 12.dp, vertical = 4.dp),
+        modifier = modifier
+            .padding(horizontal = 12.dp, vertical = 4.dp)
+            .semantics(mergeDescendants = true) { } ,
+
     ) {
         Text(text = label, style = MaterialTheme.typography.labelLarge)
         Text(text = value, style = MaterialTheme.typography.bodyLarge)

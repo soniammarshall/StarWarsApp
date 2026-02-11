@@ -16,7 +16,7 @@ typealias VehicleId = Int
 data class BasicCharacterUiModel(
     val id: CharacterId?,
     val name: String,
-    val birthYear: String,
+    val gender: String,
 )
 
 data class CharacterUiModel(

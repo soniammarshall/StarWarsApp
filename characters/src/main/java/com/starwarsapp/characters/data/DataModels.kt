@@ -19,8 +19,7 @@ data class CharacterListResult(
 @JsonIgnoreUnknownKeys
 data class BasicCharacterResult(
     val name: String,
-    @SerialName("birth_year")
-    val birthYear: String,
+    val gender: String,
     val url: String,
 )
 

@@ -18,10 +18,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow.Companion.Ellipsis
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
@@ -143,8 +143,10 @@ fun CharacterRow(character: BasicCharacterUiModel, onAction: (CharacterListActio
                     character.id?.let {
                         onAction(CharacterListAction.CharacterClick(character.id))
                     }
-                }
+                },
+                onClickLabel = "open character details"
             )
+            .semantics { role = Role.Button }
     ) {
         Icon(
             painter = painterResource(id = R.drawable.ic_character),
@@ -159,7 +161,7 @@ fun CharacterRow(character: BasicCharacterUiModel, onAction: (CharacterListActio
                 overflow = Ellipsis
             )
             Text(
-                text = "Birth Year: ${character.birthYear}",
+                text = "Gender: ${character.gender}",
                 style = MaterialTheme.typography.labelLarge,
                 maxLines = 1,
                 overflow = Ellipsis
@@ -176,17 +178,17 @@ val sampleLoadedUiState = CharacterListUiState.Loaded(
     characterList = listOf(
         BasicCharacterUiModel(
             name = "Luke Skywalker",
-            birthYear = "19BBY",
+            gender = "male",
             id = 2,
         ),
         BasicCharacterUiModel(
             name = "C-3PO",
-            birthYear = "112BBY",
+            gender = "n/a",
             id = 3,
         ),
         BasicCharacterUiModel(
             name = "Very Long Character Name For Example",
-            birthYear = "11BBY",
+            gender = "unknown",
             id = 4,
         ),
     )

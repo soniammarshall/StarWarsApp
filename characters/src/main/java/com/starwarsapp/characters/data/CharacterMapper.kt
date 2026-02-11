@@ -33,7 +33,7 @@ fun mapToBasicCharacterUiModel(character: BasicCharacterResult): BasicCharacterU
     return BasicCharacterUiModel(
         id = getId(character.url),
         name = character.name,
-        birthYear = character.birthYear,
+        gender = character.gender,
     )
 }
 

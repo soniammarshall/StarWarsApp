@@ -111,28 +111,6 @@ fun FilmSection(
         },
 
     )
-//    Column(modifier = modifier) {
-//        Text(
-//            text = "Films",
-//            style = MaterialTheme.typography.titleMedium,
-//            modifier = Modifier
-//                .padding(horizontal = 12.dp)
-//                .semantics { heading() }
-//        )
-//        Card(
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .padding(12.dp)
-//        ) {
-//            Column(
-//                modifier = Modifier.padding(vertical = 8.dp),
-//            ) {
-//                for (film in films) {
-//                    Text(text = film.title)
-//                }
-//            }
-//        }
-//    }
 }
 
 @Composable
