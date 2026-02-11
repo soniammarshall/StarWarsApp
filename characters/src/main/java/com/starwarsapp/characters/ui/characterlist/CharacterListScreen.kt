@@ -25,7 +25,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.starwarsapp.characters.data.Character
+import com.starwarsapp.characters.data.BasicCharacterResult
 import com.starwarsapp.uicomponents.R
 import com.starwarsapp.uicomponents.components.PreviewSurface
 import com.starwarsapp.uicomponents.components.SWTopAppBar
@@ -144,7 +144,7 @@ fun CharacterList(
 }
 
 @Composable
-fun CharacterRow(character: Character, onAction: (CharacterListAction) -> Unit) {
+fun CharacterRow(character: BasicCharacterResult, onAction: (CharacterListAction) -> Unit) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
@@ -182,11 +182,11 @@ val sampleLoadedUiState = CharacterListUiState.Loaded(
     next = null,
     previous = null,
     characterList = listOf(
-        Character(
+        BasicCharacterResult(
             name = "Luke Skywalker",
             birthYear = "19 BBY"
         ),
-        Character(
+        BasicCharacterResult(
             name = "C-3PO",
             birthYear = "112BBY"
         ),

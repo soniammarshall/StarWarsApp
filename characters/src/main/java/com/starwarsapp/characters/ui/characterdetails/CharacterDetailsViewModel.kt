@@ -7,6 +7,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.starwarsapp.characters.data.StarWarsRepository
 import com.starwarsapp.characters.data.StarWarsRepositoryImpl
+import com.starwarsapp.characters.data.toCharacterUiModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -27,7 +28,7 @@ class CharacterDetailsViewModel(
             try {
                 val id = 1
                 val result = starWarsRepository.getCharacter(id)
-                _uiState.value = CharacterDetailsUiState.Loaded(name = result.name)
+                _uiState.value = CharacterDetailsUiState.Loaded(character = result.toCharacterUiModel())
             } catch (e: Exception) {
                 Log.e("CharacterDetailsViewModel", "Error loading character details", e)
                 _uiState.value = CharacterDetailsUiState.Error
