@@ -14,6 +14,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,21 +32,34 @@ import com.starwarsapp.uicomponents.components.SWTopAppBar
 
 @Composable
 fun CharacterListScreen(
+    navigateToCharacterDetails: (Int) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: CharacterListViewModel = viewModel(factory = characterListViewModelFactory)
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
+    LaunchedEffect(Unit) {
+        viewModel.events.collect { event ->
+            when (event) {
+                is CharacterListEvent.NavigateToCharacterDetails -> {
+                    navigateToCharacterDetails(event.id)
+                }
+            }
+        }
+    }
+
     CharacterListScreenContent(
         uiState = uiState,
-        modifier = modifier
+        onAction = viewModel::onAction,
+        modifier = modifier,
     )
 }
 
 @Composable
 fun CharacterListScreenContent(
     uiState: CharacterListUiState,
-    modifier: Modifier = Modifier
+    onAction: (CharacterListAction) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Scaffold(
         topBar = { SWTopAppBar(title = "Star Wars Characters") },
@@ -63,6 +77,7 @@ fun CharacterListScreenContent(
                 is CharacterListUiState.Loaded -> {
                     CharacterList(
                         uiState = uiState,
+                        onAction = onAction,
                         modifier = Modifier.padding(innerPadding),
                     )
                 }
@@ -94,6 +109,7 @@ fun ErrorState(modifier: Modifier = Modifier) {
 @Composable
 fun CharacterList(
     uiState: CharacterListUiState.Loaded,
+    onAction: (CharacterListAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -117,7 +133,7 @@ fun CharacterList(
         ) {
             uiState.characterList.forEachIndexed { index, character ->
                 item {
-                    CharacterRow(character)
+                    CharacterRow(character = character, onAction = onAction)
                     if (index < uiState.characterList.lastIndex) {
                         HorizontalDivider()
                     }
@@ -128,14 +144,14 @@ fun CharacterList(
 }
 
 @Composable
-fun CharacterRow(character: Character) {
+fun CharacterRow(character: Character, onAction: (CharacterListAction) -> Unit) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
             .padding(12.dp)
             .clickable(
-                onClick = {}
+                onClick = { onAction(CharacterListAction.CharacterClick(1)) }
             )
     ) {
         Icon(
@@ -182,7 +198,8 @@ val sampleLoadedUiState = CharacterListUiState.Loaded(
 internal fun PreviewCharacterListScreenContentLightDark() {
     PreviewSurface {
         CharacterListScreenContent(
-            uiState = sampleLoadedUiState
+            uiState = sampleLoadedUiState,
+            onAction = {},
         )
     }
 }
@@ -192,7 +209,8 @@ internal fun PreviewCharacterListScreenContentLightDark() {
 internal fun PreviewCharacterListScreenContentFontScale() {
     PreviewSurface {
         CharacterListScreenContent(
-            uiState = sampleLoadedUiState
+            uiState = sampleLoadedUiState,
+            onAction = {},
         )
     }
 }

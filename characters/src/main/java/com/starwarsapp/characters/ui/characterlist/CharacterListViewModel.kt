@@ -7,7 +7,9 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.starwarsapp.characters.data.StarWarsRepository
 import com.starwarsapp.characters.data.StarWarsRepositoryImpl
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
@@ -16,6 +18,10 @@ class CharacterListViewModel(
 ) : ViewModel() {
     private val _uiState = MutableStateFlow<CharacterListUiState>(CharacterListUiState.Loading)
     val uiState = _uiState.asStateFlow()
+
+    private val _events = MutableSharedFlow<CharacterListEvent>()
+    val events = _events.asSharedFlow()
+
 
     init {
         viewModelScope.launch {
@@ -31,6 +37,17 @@ class CharacterListViewModel(
                 Log.e("CharactersViewModel", "Error loading character list", e)
                 _uiState.value = CharacterListUiState.Error
             }
+        }
+    }
+
+    fun onAction(action: CharacterListAction) {
+        when (action) {
+            is CharacterListAction.CharacterClick -> {
+                viewModelScope.launch {
+                    _events.emit(CharacterListEvent.NavigateToCharacterDetails(action.id))
+                }
+            }
+            CharacterListAction.RetryClick -> {}
         }
     }
 }

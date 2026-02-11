@@ -5,6 +5,7 @@ import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Path
 
 private const val BASE_URL = "https://swapi.dev/api/"
 
@@ -18,7 +19,9 @@ interface StarWarsClient {
     suspend fun getCharacterList(): CharacterListResult
 
     @GET("people/{id}")
-    suspend fun getCharacter(id: Int): CharacterResult
+    suspend fun getCharacter(
+        @Path("id") id: Int,
+    ): CharacterResult
 }
 
 object StarWarsApi {

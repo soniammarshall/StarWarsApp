@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalSerializationApi::class)
+
 package com.starwarsapp.characters.data
 
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -13,7 +15,6 @@ data class CharacterListResult(
     val results: List<Character>
 )
 
-@OptIn(ExperimentalSerializationApi::class)
 @Serializable
 @JsonIgnoreUnknownKeys
 data class Character(
@@ -23,6 +24,7 @@ data class Character(
 )
 
 @Serializable
+@JsonIgnoreUnknownKeys
 data class CharacterResult(
     val name: String,
 )

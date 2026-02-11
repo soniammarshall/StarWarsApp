@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewFontScale
@@ -19,13 +20,25 @@ import com.starwarsapp.uicomponents.components.SWTopAppBar
 
 @Composable
 fun CharacterDetailsScreen(
+    navigateBack: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: CharacterDetailsViewModel = viewModel(factory = characterDetailsViewModelFactory)
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
+    LaunchedEffect(Unit) {
+        viewModel.events.collect { event ->
+            when (event) {
+                CharacterDetailsEvent.NavigateBack -> {
+                    navigateBack()
+                }
+            }
+        }
+    }
+
     CharacterDetailsContent(
         uiState = uiState,
+        onAction = viewModel::onAction,
         modifier = modifier,
     )
 }
@@ -33,10 +46,19 @@ fun CharacterDetailsScreen(
 @Composable
 fun CharacterDetailsContent(
     uiState: CharacterDetailsUiState,
+    onAction: (CharacterDetailsAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Scaffold(
-        topBar = { SWTopAppBar(title = "Character Bio", showBackButton = true, onBackClick = {}) },
+        topBar = {
+            SWTopAppBar(
+                title = "Character Bio",
+                showBackButton = true,
+                onBackClick = {
+                    onAction(CharacterDetailsAction.BackClick)
+                }
+            )
+        },
         modifier = modifier.fillMaxSize(),
         content = { innerPadding ->
             when (uiState) {
@@ -74,7 +96,8 @@ fun CharacterDetails(
 internal fun PreviewCharacterDetailsLightDark() {
     PreviewSurface {
         CharacterDetailsContent(
-            uiState = CharacterDetailsUiState.Loaded(name = "Luke Skywalker")
+            uiState = CharacterDetailsUiState.Loaded(name = "Luke Skywalker"),
+            onAction = {},
         )
     }
 }
@@ -84,7 +107,8 @@ internal fun PreviewCharacterDetailsLightDark() {
 internal fun PreviewCharacterDetailsFontScale() {
     PreviewSurface {
         CharacterDetailsContent(
-            uiState = CharacterDetailsUiState.Loaded(name = "Luke Skywalker")
+            uiState = CharacterDetailsUiState.Loaded(name = "Luke Skywalker"),
+            onAction = {},
         )
     }
 }

@@ -15,10 +15,19 @@ fun AppRoot() {
         startDestination = CharacterList.route,
     ) {
         composable(CharacterList.route) {
-            CharacterListScreen()
+            CharacterListScreen(
+                // TODO pass the id in
+                navigateToCharacterDetails = {
+                    navController.navigate(CharacterDetails.route)
+                }
+            )
         }
         composable(CharacterDetails.route) {
-            CharacterDetailsScreen()
+            CharacterDetailsScreen(
+                navigateBack = {
+                    navController.popBackStack()
+                }
+            )
         }
     }
 
