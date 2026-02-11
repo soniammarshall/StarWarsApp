@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.starwarsapp.characters.ui.CharactersScreen
+import com.starwarsapp.characters.ui.characterlist.CharacterListScreen
 
 @Composable
 fun AppRoot() {
@@ -14,7 +14,7 @@ fun AppRoot() {
         startDestination = Characters.route,
     ) {
         composable(Characters.route) {
-            CharactersScreen()
+            CharacterListScreen()
         }
     }
 

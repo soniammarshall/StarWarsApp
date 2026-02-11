@@ -1,4 +1,4 @@
-package com.starwarsapp.characters.ui
+package com.starwarsapp.characters.ui.characterlist
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -30,21 +30,21 @@ import com.starwarsapp.uicomponents.components.PreviewSurface
 import com.starwarsapp.uicomponents.components.SWTopAppBar
 
 @Composable
-fun CharactersScreen(
+fun CharacterListScreen(
     modifier: Modifier = Modifier,
-    viewModel: CharactersViewModel = viewModel(factory = charactersViewModelFactory)
+    viewModel: CharacterListViewModel = viewModel(factory = characterListViewModelFactory)
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    CharactersScreenContent(
+    CharacterListScreenContent(
         uiState = uiState,
         modifier = modifier
     )
 }
 
 @Composable
-fun CharactersScreenContent(
-    uiState: CharactersUiState,
+fun CharacterListScreenContent(
+    uiState: CharacterListUiState,
     modifier: Modifier = Modifier
 ) {
     Scaffold(
@@ -52,16 +52,16 @@ fun CharactersScreenContent(
         modifier = modifier.fillMaxSize(),
         content = { innerPadding ->
             when (uiState) {
-                CharactersUiState.Loading -> {
+                CharacterListUiState.Loading -> {
                     // TODO create standard loading state
                     LoadingState(modifier = Modifier.padding(innerPadding))
                 }
-                CharactersUiState.Error -> {
+                CharacterListUiState.Error -> {
                     // TODO create standard error state
                     ErrorState(modifier = Modifier.padding(innerPadding))
                 }
-                is CharactersUiState.Loaded -> {
-                    CharactersList(
+                is CharacterListUiState.Loaded -> {
+                    CharacterList(
                         uiState = uiState,
                         modifier = Modifier.padding(innerPadding),
                     )
@@ -92,8 +92,8 @@ fun ErrorState(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun CharactersList(
-    uiState: CharactersUiState.Loaded,
+fun CharacterList(
+    uiState: CharacterListUiState.Loaded,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -161,7 +161,7 @@ fun CharacterRow(character: Character) {
     }
 }
 
-val sampleLoadedUiState = CharactersUiState.Loaded(
+val sampleLoadedUiState = CharacterListUiState.Loaded(
     count = 2,
     next = null,
     previous = null,
@@ -179,9 +179,9 @@ val sampleLoadedUiState = CharactersUiState.Loaded(
 
 @PreviewLightDark
 @Composable
-internal fun PreviewCharactersScreenContentLightDark() {
+internal fun PreviewCharacterListScreenContentLightDark() {
     PreviewSurface {
-        CharactersScreenContent(
+        CharacterListScreenContent(
             uiState = sampleLoadedUiState
         )
     }
@@ -189,9 +189,9 @@ internal fun PreviewCharactersScreenContentLightDark() {
 
 @PreviewFontScale
 @Composable
-internal fun PreviewCharactersScreenContentFontScale() {
+internal fun PreviewCharacterListScreenContentFontScale() {
     PreviewSurface {
-        CharactersScreenContent(
+        CharacterListScreenContent(
             uiState = sampleLoadedUiState
         )
     }
