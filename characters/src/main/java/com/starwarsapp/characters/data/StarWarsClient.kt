@@ -49,7 +49,7 @@ interface StarWarsClient {
         @Path("id") id: StarshipId,
     ): StarshipResult
 
-    @GET("people/{id}")
+    @GET("vehicles/{id}")
     suspend fun getVehicle(
         @Path("id") id: VehicleId,
     ): VehicleResult
