@@ -21,7 +21,12 @@ class CharactersViewModel(
         viewModelScope.launch {
             try {
                 val result = starWarsRepository.getCharacterList()
-                _uiState.value = CharactersUiState.Loaded
+                _uiState.value = CharactersUiState.Loaded(
+                    count = result.count,
+                    next = result.next,
+                    previous = result.previous,
+                    characterList = result.results
+                )
             } catch(e: Exception) {
                 Log.e("CharactersViewModel", "Error loading character list", e)
                 _uiState.value = CharactersUiState.Error

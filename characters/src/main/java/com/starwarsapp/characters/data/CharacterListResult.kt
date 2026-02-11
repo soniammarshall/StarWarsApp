@@ -1,6 +1,7 @@
 package com.starwarsapp.characters.data
 
 import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonIgnoreUnknownKeys
 
@@ -17,6 +18,6 @@ data class CharacterListResult(
 @JsonIgnoreUnknownKeys
 data class Character(
     val name: String,
-    val height: String,
-    val mass: String,
+    @SerialName("birth_year")
+    val birthYear: String,
 )
