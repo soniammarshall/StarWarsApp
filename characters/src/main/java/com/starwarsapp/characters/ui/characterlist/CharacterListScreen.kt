@@ -18,6 +18,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow.Companion.Ellipsis
 import androidx.compose.ui.tooling.preview.PreviewFontScale
@@ -152,11 +155,11 @@ fun CharacterRow(character: BasicCharacterUiModel, onAction: (CharacterListActio
             Text(
                 text = character.name,
                 style = MaterialTheme.typography.bodyLarge,
-                maxLines = 1,
+                maxLines = 2,
                 overflow = Ellipsis
             )
             Text(
-                text = character.birthYear,
+                text = "Birth Year: ${character.birthYear}",
                 style = MaterialTheme.typography.labelLarge,
                 maxLines = 1,
                 overflow = Ellipsis
@@ -167,19 +170,24 @@ fun CharacterRow(character: BasicCharacterUiModel, onAction: (CharacterListActio
 }
 
 val sampleLoadedUiState = CharacterListUiState.Loaded(
-    count = 2,
+    count = 3,
     next = null,
     previous = null,
     characterList = listOf(
         BasicCharacterUiModel(
             name = "Luke Skywalker",
-            birthYear = "19 BBY",
+            birthYear = "19BBY",
             id = 2,
         ),
         BasicCharacterUiModel(
             name = "C-3PO",
             birthYear = "112BBY",
             id = 3,
+        ),
+        BasicCharacterUiModel(
+            name = "Very Long Character Name For Example",
+            birthYear = "11BBY",
+            id = 4,
         ),
     )
 )

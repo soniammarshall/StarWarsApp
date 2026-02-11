@@ -16,6 +16,7 @@ retrofit = "3.0.0"
 kotlinz-serialization-json = "1.10.0"
 okhttp = "4.11.0"
 kotlin-coroutines = "1.10.2"
+paparazzi = "2.0.0-alpha04"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -49,4 +50,5 @@ android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+paparazzi = { id = "app.cash.paparazzi", version.ref = "paparazzi" }
 
