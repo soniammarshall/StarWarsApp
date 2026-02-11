@@ -21,3 +21,8 @@ data class Character(
     @SerialName("birth_year")
     val birthYear: String,
 )
+
+@Serializable
+data class CharacterResult(
+    val name: String,
+)

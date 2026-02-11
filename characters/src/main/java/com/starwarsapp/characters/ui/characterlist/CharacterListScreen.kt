@@ -48,7 +48,7 @@ fun CharacterListScreenContent(
     modifier: Modifier = Modifier
 ) {
     Scaffold(
-        topBar = { SWTopAppBar(title = "Star Wars Characters", showBackButton = true, onBackClick = {}) },
+        topBar = { SWTopAppBar(title = "Star Wars Characters") },
         modifier = modifier.fillMaxSize(),
         content = { innerPadding ->
             when (uiState) {

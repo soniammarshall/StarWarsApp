@@ -16,6 +16,9 @@ var retrofit: Retrofit = Retrofit.Builder()
 interface StarWarsClient {
     @GET("people")
     suspend fun getCharacterList(): CharacterListResult
+
+    @GET("people/{id}")
+    suspend fun getCharacter(id: Int): CharacterResult
 }
 
 object StarWarsApi {
