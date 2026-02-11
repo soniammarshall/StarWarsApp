@@ -1,6 +1,5 @@
 package com.starwarsapp.uicomponents.components
 
-import android.R
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -32,7 +31,8 @@ fun ErrorState(
             modifier = Modifier.padding(bottom = 24.dp)
         )
         Button(
-            onClick = onRetryClick
+            onClick = onRetryClick,
+            modifier = Modifier.focusBorder()
         ) {
             Text(text = "Retry")
         }

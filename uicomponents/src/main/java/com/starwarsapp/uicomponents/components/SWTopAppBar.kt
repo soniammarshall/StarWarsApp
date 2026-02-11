@@ -35,6 +35,7 @@ fun SWTopAppBar(
                 if (showBackButton && onBackClick != null) {
                     IconButton(
                         onClick = { onBackClick() },
+                        modifier = Modifier.focusBorder()
                     ) {
                         Icon(
                             painter = painterResource(R.drawable.ic_back_arrow),

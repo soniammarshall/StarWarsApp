@@ -34,6 +34,7 @@ import com.starwarsapp.uicomponents.components.ErrorState
 import com.starwarsapp.uicomponents.components.LoadingState
 import com.starwarsapp.uicomponents.components.PreviewSurface
 import com.starwarsapp.uicomponents.components.SWTopAppBar
+import com.starwarsapp.uicomponents.components.focusBorder
 
 @Composable
 fun CharacterListScreen(
@@ -137,6 +138,7 @@ fun CharacterRow(character: BasicCharacterUiModel, onAction: (CharacterListActio
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
+            .focusBorder()
             .padding(12.dp)
             .clickable(
                 onClick = {
