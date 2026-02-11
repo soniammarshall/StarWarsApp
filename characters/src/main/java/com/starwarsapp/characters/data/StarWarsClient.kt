@@ -1,5 +1,11 @@
 package com.starwarsapp.characters.data
 
+import com.starwarsapp.characters.ui.CharacterId
+import com.starwarsapp.characters.ui.FilmId
+import com.starwarsapp.characters.ui.PlanetId
+import com.starwarsapp.characters.ui.SpeciesId
+import com.starwarsapp.characters.ui.StarshipId
+import com.starwarsapp.characters.ui.VehicleId
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
@@ -20,8 +26,33 @@ interface StarWarsClient {
 
     @GET("people/{id}")
     suspend fun getCharacter(
-        @Path("id") id: Int,
+        @Path("id") id: CharacterId,
     ): CharacterResult
+
+    @GET("films/{id}")
+    suspend fun getFilm(
+        @Path("id") id: FilmId,
+    ): FilmResult
+
+    @GET("species/{id}")
+    suspend fun getSpecies(
+        @Path("id") id: SpeciesId,
+    ): SpeciesResult
+
+    @GET("planets/{id}")
+    suspend fun getPlanet(
+        @Path("id") id: PlanetId,
+    ): PlanetResult
+
+    @GET("starships/{id}")
+    suspend fun getStarships(
+        @Path("id") id: StarshipId,
+    ): StarshipResult
+
+    @GET("people/{id}")
+    suspend fun getVehicle(
+        @Path("id") id: VehicleId,
+    ): VehicleResult
 }
 
 object StarWarsApi {

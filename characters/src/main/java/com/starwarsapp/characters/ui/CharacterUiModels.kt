@@ -1,5 +1,11 @@
 package com.starwarsapp.characters.ui
 
+import com.starwarsapp.characters.data.FilmResult
+import com.starwarsapp.characters.data.PlanetResult
+import com.starwarsapp.characters.data.SpeciesResult
+import com.starwarsapp.characters.data.StarshipResult
+import com.starwarsapp.characters.data.VehicleResult
+
 typealias CharacterId = Int
 typealias PlanetId = Int
 typealias FilmId = Int
@@ -17,9 +23,9 @@ data class CharacterUiModel(
     val height: String,
     val mass: String,
     val skinColor: String,
-    val homeworld: PlanetId?,
-    val films: List<FilmId>,
-    val species: List<SpeciesId>,
-    val starships: List<StarshipId>,
-    val vehicles: List<VehicleId>,
+    val homeworld: PlanetResult?,
+    val films: List<FilmResult>?,
+    val species: List<SpeciesResult>?,
+    val starships: List<StarshipResult>?,
+    val vehicles: List<VehicleResult>?,
 )

@@ -19,6 +19,10 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.starwarsapp.characters.data.FilmResult
+import com.starwarsapp.characters.data.SpeciesResult
+import com.starwarsapp.characters.data.StarshipResult
+import com.starwarsapp.characters.data.VehicleResult
 import com.starwarsapp.characters.ui.CharacterUiModel
 import com.starwarsapp.characters.ui.characterlist.ErrorState
 import com.starwarsapp.characters.ui.characterlist.LoadingState
@@ -94,6 +98,30 @@ fun CharacterDetails(
     Column(
         modifier = modifier.fillMaxSize()
     ) {
+        CharacteristicsSection(uiState.character)
+        uiState.character.films?.let {
+            FilmSection(it)
+        }
+        uiState.character.species?.let {
+            SpeciesSection(it)
+        }
+        uiState.character.starships?.let {
+            StarshipsSection(it)
+        }
+        uiState.character.vehicles?.let {
+            VehiclesSection(it)
+        }
+    }
+}
+
+@Composable
+fun CharacteristicsSection(
+    character: CharacterUiModel,
+    modifier: Modifier = Modifier,
+) {
+    Column(
+        modifier = modifier,
+    ) {
         Text(
             text = "Characteristics",
             style = MaterialTheme.typography.titleMedium,
@@ -106,43 +134,58 @@ fun CharacterDetails(
                 .fillMaxWidth()
                 .padding(12.dp)
         ) {
-            CharacterInfo(
-                label = "Name",
-                value = uiState.character.name,
-            )
-            CharacterInfo(
-                label = "Birth Year",
-                value = uiState.character.birthYear,
-            )
-            CharacterInfo(
-                label = "Eye Color",
-                value = uiState.character.eyeColor,
-            )
-            CharacterInfo(
-                label = "Gender",
-                value = uiState.character.gender,
-            )
-            CharacterInfo(
-                label = "Hair Color",
-                value = uiState.character.hairColor,
-            )
-            CharacterInfo(
-                label = "Height",
-                value = uiState.character.height,
-            )
-            CharacterInfo(
-                label = "Mass",
-                value = uiState.character.mass,
-            )
-            CharacterInfo(
-                label = "Skin Color",
-                value = uiState.character.skinColor,
-            )
-            CharacterInfo(
-                label = "Homeworld",
-                value = uiState.character.homeworld.toString(),
-            )
+            Column(
+                modifier = Modifier.padding(vertical = 8.dp),
+            ) {
+                CharacterInfo(
+                    label = "Name",
+                    value = character.name,
+                )
+                CharacterInfo(
+                    label = "Birth Year",
+                    value = character.birthYear,
+                )
+                CharacterInfo(
+                    label = "Eye Color",
+                    value = character.eyeColor,
+                )
+                CharacterInfo(
+                    label = "Gender",
+                    value = character.gender,
+                )
+                CharacterInfo(
+                    label = "Hair Color",
+                    value = character.hairColor,
+                )
+                CharacterInfo(
+                    label = "Height",
+                    value = character.height,
+                )
+                CharacterInfo(
+                    label = "Mass",
+                    value = character.mass,
+                )
+                CharacterInfo(
+                    label = "Skin Color",
+                    value = character.skinColor,
+                )
+                character.homeworld?.let {
+                    CharacterInfo(
+                        label = "Homeworld",
+                        value = it.name,
+                    )
+                }
+            }
         }
+    }
+}
+
+@Composable
+fun FilmSection(
+    films: List<FilmResult>,
+    modifier: Modifier = Modifier,
+) {
+    Column(modifier = modifier) {
         Text(
             text = "Films",
             style = MaterialTheme.typography.titleMedium,
@@ -155,11 +198,19 @@ fun CharacterDetails(
                 .fillMaxWidth()
                 .padding(12.dp)
         ) {
-            CharacterInfo(
-                label = "Films",
-                value = uiState.character.films.toString(),
-            )
+            for (film in films) {
+                Text(text = film.title)
+            }
         }
+    }
+}
+
+@Composable
+fun SpeciesSection(
+    species: List<SpeciesResult>,
+    modifier: Modifier = Modifier,
+) {
+    Column(modifier = modifier) {
         Text(
             text = "Species",
             style = MaterialTheme.typography.titleMedium,
@@ -172,11 +223,19 @@ fun CharacterDetails(
                 .fillMaxWidth()
                 .padding(12.dp)
         ) {
-            CharacterInfo(
-                label = "Species",
-                value = uiState.character.species.toString(),
-            )
+            for (specie in species) {
+                Text(text = specie.name)
+            }
         }
+    }
+}
+
+@Composable
+fun StarshipsSection(
+    starships: List<StarshipResult>,
+    modifier: Modifier = Modifier,
+) {
+    Column(modifier = modifier) {
         Text(
             text = "Starships",
             style = MaterialTheme.typography.titleMedium,
@@ -189,11 +248,19 @@ fun CharacterDetails(
                 .fillMaxWidth()
                 .padding(12.dp)
         ) {
-            CharacterInfo(
-                label = "Starships",
-                value = uiState.character.starships.toString(),
-            )
+            for (starship in starships) {
+                Text(text = starship.name)
+            }
         }
+    }
+}
+
+@Composable
+fun VehiclesSection(
+    vehicles: List<VehicleResult>,
+    modifier: Modifier = Modifier,
+) {
+    Column(modifier = modifier) {
         Text(
             text = "Vehicles",
             style = MaterialTheme.typography.titleMedium,
@@ -206,13 +273,14 @@ fun CharacterDetails(
                 .fillMaxWidth()
                 .padding(12.dp)
         ) {
-            CharacterInfo(
-                label = "Vehicles",
-                value = uiState.character.vehicles.toString(),
-            )
+            for (vehicle in vehicles) {
+                Text(text = vehicle.name)
+            }
         }
     }
 }
+
+
 
 @Composable
 fun CharacterInfo(
@@ -238,11 +306,11 @@ val sampleCharacter = CharacterUiModel(
     height = "172",
     mass = "77",
     skinColor = "fair",
-    homeworld = 1,
-    films = listOf(2,6,3,1,7),
-    species = listOf(1),
-    starships = listOf(12,22),
-    vehicles = listOf(14,30),
+    homeworld = null,
+    films = null,
+    species = null,
+    starships = null,
+    vehicles = null,
 )
 
     @PreviewLightDark

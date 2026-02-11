@@ -45,3 +45,33 @@ data class CharacterResult(
     val vehicles: List<String>,
     val url: String,
 )
+
+@Serializable
+@JsonIgnoreUnknownKeys
+data class FilmResult(
+    val title: String,
+)
+
+@Serializable
+@JsonIgnoreUnknownKeys
+data class PlanetResult(
+    val name: String,
+)
+
+@Serializable
+@JsonIgnoreUnknownKeys
+data class SpeciesResult(
+    val name: String,
+)
+
+@Serializable
+@JsonIgnoreUnknownKeys
+data class StarshipResult(
+    val name: String,
+)
+
+@Serializable
+@JsonIgnoreUnknownKeys
+data class VehicleResult(
+    val name: String,
+)

@@ -5,9 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.starwarsapp.characters.data.StarWarsRepository
 import com.starwarsapp.characters.data.StarWarsRepositoryImpl
-import com.starwarsapp.characters.data.toCharacterUiModel
+import com.starwarsapp.characters.domain.GetCharacterDetailsUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -15,7 +14,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class CharacterDetailsViewModel(
-    private val starWarsRepository: StarWarsRepository
+    private val getCharacterDetailsUseCase: GetCharacterDetailsUseCase,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow<CharacterDetailsUiState>(CharacterDetailsUiState.Loading)
     val uiState = _uiState.asStateFlow()
@@ -27,8 +26,8 @@ class CharacterDetailsViewModel(
         viewModelScope.launch {
             try {
                 val id = 1
-                val result = starWarsRepository.getCharacter(id)
-                _uiState.value = CharacterDetailsUiState.Loaded(character = result.toCharacterUiModel())
+                val result = getCharacterDetailsUseCase.execute(id)
+                _uiState.value = CharacterDetailsUiState.Loaded(character = result)
             } catch (e: Exception) {
                 Log.e("CharacterDetailsViewModel", "Error loading character details", e)
                 _uiState.value = CharacterDetailsUiState.Error
@@ -49,8 +48,11 @@ class CharacterDetailsViewModel(
 
 val characterDetailsViewModelFactory = viewModelFactory {
     initializer {
+        // with more time would refactor to use dependency injection
         CharacterDetailsViewModel(
-            starWarsRepository = StarWarsRepositoryImpl()
+            getCharacterDetailsUseCase = GetCharacterDetailsUseCase(
+                starWarsRepository = StarWarsRepositoryImpl()
+            ),
         )
     }
 }

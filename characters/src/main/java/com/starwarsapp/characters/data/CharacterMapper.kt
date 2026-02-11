@@ -2,22 +2,29 @@ package com.starwarsapp.characters.data
 
 import com.starwarsapp.characters.ui.CharacterUiModel
 
-fun CharacterResult.toCharacterUiModel(): CharacterUiModel {
+fun mapToCharacterUiModel(
+    character: CharacterResult,
+    homeworld: PlanetResult?,
+    films: List<FilmResult>,
+    species: List<SpeciesResult>,
+    starships: List<StarshipResult>,
+    vehicles: List<VehicleResult>,
+): CharacterUiModel {
     return CharacterUiModel(
-        id = getId(this.url),
-        name = this.name,
-        birthYear = this.birthYear,
-        eyeColor = this.eyeColor,
-        gender = this.gender,
-        hairColor = this.gender,
-        height = this.height,
-        mass = this.mass,
-        skinColor = this.skinColor,
-        homeworld = getId(this.homeworld),
-        films = getIdList(this.films),
-        species = getIdList(this.species),
-        starships = getIdList(this.starships),
-        vehicles = getIdList(this.vehicles),
+        id = getId(character.url),
+        name = character.name,
+        birthYear = character.birthYear,
+        eyeColor = character.eyeColor,
+        gender = character.gender,
+        hairColor = character.gender,
+        height = character.height,
+        mass = character.mass,
+        skinColor = character.skinColor,
+        homeworld = homeworld,
+        films = films.ifEmpty { null },
+        species = species.ifEmpty { null },
+        starships = starships.ifEmpty { null },
+        vehicles = vehicles.ifEmpty { null },
     )
 }
 
