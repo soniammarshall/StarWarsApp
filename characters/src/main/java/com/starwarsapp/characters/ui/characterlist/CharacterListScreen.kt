@@ -18,6 +18,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.role
@@ -114,11 +115,13 @@ fun CharacterList(
             modifier = Modifier.padding(horizontal = 12.dp).padding(bottom = 8.dp)
         )
         LazyColumn(
-            modifier = Modifier.border(
-                width = 1.dp,
-                color = MaterialTheme.colorScheme.outlineVariant,
-                shape = MaterialTheme.shapes.medium
-            )
+            modifier = Modifier
+                .clip(shape = MaterialTheme.shapes.medium)
+                .border(
+                    width = 1.dp,
+                    color = MaterialTheme.colorScheme.outlineVariant,
+                    shape = MaterialTheme.shapes.medium
+                ),
         ) {
             uiState.characterList.forEachIndexed { index, character ->
                 item {
@@ -137,9 +140,6 @@ fun CharacterRow(character: BasicCharacterUiModel, onAction: (CharacterListActio
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
-            .fillMaxWidth()
-            .focusBorder()
-            .padding(12.dp)
             .clickable(
                 onClick = {
                     character.id?.let {
@@ -148,6 +148,9 @@ fun CharacterRow(character: BasicCharacterUiModel, onAction: (CharacterListActio
                 },
                 onClickLabel = "open character details"
             )
+            .padding(12.dp)
+            .fillMaxWidth()
+            .focusBorder()
             .semantics { role = Role.Button }
     ) {
         Icon(

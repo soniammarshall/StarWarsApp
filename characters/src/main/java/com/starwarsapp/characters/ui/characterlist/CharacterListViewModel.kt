@@ -53,7 +53,9 @@ class CharacterListViewModel(
                     _events.emit(CharacterListEvent.NavigateToCharacterDetails(action.id))
                 }
             }
-            CharacterListAction.RetryClick -> {}
+            CharacterListAction.RetryClick -> {
+                loadScreen()
+            }
         }
     }
 }

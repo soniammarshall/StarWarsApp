@@ -8,6 +8,7 @@ import com.starwarsapp.characters.ui.CharacterId
 import com.starwarsapp.characters.ui.CharacterUiModel
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
 
 class GetCharacterDetailsUseCase(
@@ -16,39 +17,29 @@ class GetCharacterDetailsUseCase(
     suspend fun execute(id: CharacterId): CharacterUiModel {
         return withContext(IO) {
             val character = starWarsRepository.getCharacter(id)
-            val homeworld = async {
-                getId(character.homeworld)?.let { planetId ->
-                    starWarsRepository.getPlanet(planetId)
-                }
+            val homeworld = getId(character.homeworld)?.let { planetId ->
+                async { starWarsRepository.getPlanet(planetId) }
             }
-            val films = async {
-                getIdList(character.films).map { filmId ->
-                    starWarsRepository.getFilm(filmId)
-                }
+            val films = getIdList(character.films).map { filmId ->
+                async { starWarsRepository.getFilm(filmId) }
             }
-            val species = async {
-                getIdList(character.species).map { speciesId ->
-                    starWarsRepository.getSpecies(speciesId)
-                }
+            val species = getIdList(character.species).map { speciesId ->
+                async { starWarsRepository.getSpecies(speciesId) }
             }
-            val starships = async {
-                getIdList(character.starships).map { starshipId ->
-                    starWarsRepository.getStarships(starshipId)
-                }
+            val starships = getIdList(character.starships).map { starshipId ->
+                async { starWarsRepository.getStarships(starshipId) }
             }
-            val vehicles = async {
-                getIdList(character.vehicles).map { vehicleId ->
-                    starWarsRepository.getVehicle(vehicleId)
-                }
+            val vehicles = getIdList(character.vehicles).map { vehicleId ->
+                async { starWarsRepository.getVehicle(vehicleId) }
             }
 
             mapToCharacterUiModel(
                 character = character,
-                homeworld = homeworld.await(),
-                films = films.await(),
-                species = species.await(),
-                starships = starships.await(),
-                vehicles = vehicles.await(),
+                homeworld = homeworld?.await(),
+                films = films.awaitAll(),
+                species = species.awaitAll(),
+                starships = starships.awaitAll(),
+                vehicles = vehicles.awaitAll(),
             )
         }
     }
